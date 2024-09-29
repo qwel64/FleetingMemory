@@ -63,7 +63,7 @@ ProcessInfo getProcessInfo(pid_t pid) {
     if (statm_file.is_open()) {
         long size, resident, shared, text, lib, data, dt;
         statm_file >> size >> resident >> shared >> text >> lib >> data >> dt;
-        info.memoryUsage = resident * 4; // Resident set size in KB
+        info.memoryUsage = resident * 4;
         info.valid = true;
     }
 
@@ -86,7 +86,7 @@ void analyzeUserSpace() {
             long size, resident, shared, text, lib, data, dt;
             statm_file >> size >> resident >> shared >> text >> lib >> data >> dt;
             
-            if (data > 1000000) {  // 1,000,000ページ（約4GB）以上を使用している場合
+            if (data > 1000000) {
                 std::cout << "Potential memory leak detected in process " << pid << std::endl;
                 std::cout << "  Data segment size: " << data * 4096 / 1024 / 1024 << " MB" << std::endl;
             }
@@ -111,7 +111,7 @@ void analyzeAndLogRealTime() {
             }
         }
         
-        std::cout << std::string(50, '-') << std::endl;  // 区切り線
+        std::cout << std::string(50, '-') << std::endl;
         
         auto end = std::chrono::steady_clock::now();
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
